@@ -213,3 +213,14 @@ html.lenis body { height: auto; }
   [data-reveal] { opacity: 1 !important; transform: none !important; filter: none !important; }
   * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }
+
+/* Ombre qui balaie une page pendant qu'elle se tourne (version livre) */
+@keyframes flip-shade {
+  0% { opacity: 0; }
+  45% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.flip-shade {
+  background: linear-gradient(to left, rgb(31 10 51 / 0.32), rgb(31 10 51 / 0.08) 45%, transparent 75%);
+  animation: flip-shade 900ms ease-in-out forwards;
+}

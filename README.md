@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Gloria SODJAHIN
 
-## Getting Started
+Portfolio statique (Next.js 16, Tailwind CSS 4, Motion, GSAP) en quatre modes de lecture :
 
-First, run the development server:
+| Route | Mode |
+|---|---|
+| `/` | Défilement vertical classique |
+| `/horizontal/` | Défilement horizontal (piste épinglée sur grand écran, glisser sur mobile) |
+| `/livre/` | Livre dont on tourne les pages (clavier ← →, clic, glisser, sommaire cliquable) |
+| `/cv/` | CV A4 imprimable, source du PDF |
+
+## Commandes
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # site statique dans out/ + PDF out/gloria-sodjahin-cv.pdf
+npm run preview    # sert out/ pour vérifier le résultat final
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Le PDF est généré au build avec Chrome ou Edge déjà installés sur la machine (`playwright-core`, aucun navigateur à télécharger). Il est aussi copié dans `public/` pour le mode dev.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Modifier le contenu
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Tout le contenu se trouve dans **`src/data/cv.ts`** (identité, expériences, formation, compétences, langues, qualités, intérêts). Les trois versions et le PDF se mettent à jour automatiquement. Les chiffres clés sont calculés à partir des données.
 
-## Learn More
+- Photo : `public/images/gloria.jpg`. L'actuelle fait 338 × 338 px ; une photo de 1200 px ou plus améliorera nettement le rendu.
+- Salutations en fon et en nago : à ajouter dans `languages` (champ `greeting`) une fois validées.
+- Adresse du site : `NEXT_PUBLIC_SITE_URL` (ou `src/lib/site.ts`) pour le sitemap et les balises de partage.
 
-To learn more about Next.js, take a look at the following resources:
+## Mise en ligne
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Le dossier `out/` est autonome : il peut être déposé tel quel sur Netlify, Vercel, GitHub Pages ou tout hébergement statique. Pour GitHub Pages dans un sous-dossier, ajouter `basePath` dans `next.config.ts`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Structure
 
-## Deploy on Vercel
+```
+src/
+  app/                 routes (/, horizontal, livre, cv), sitemap, robots, 404
+  components/
+    motion/            primitives d'animation (Reveal, SplitText, Counter, Stamp…)
+    shared/            éléments communs (PhotoArch, ModeSwitcher, Envelope, ExperienceCard…)
+    vertical/          sections de la version verticale
+    horizontal/        panneaux et moteur GSAP de la version horizontale
+    book/              moteur 3D du livre et contenu des 20 pages
+    cv/                barre d'outils de la page imprimable
+  data/cv.ts           source de données unique
+scripts/
+  generate-pdf.mjs     génération du PDF à partir de /cv
+  flatten-segments.mjs correctif d'export (fichiers de préchargement Next 16)
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Les animations respectent le réglage système « réduire les animations ».

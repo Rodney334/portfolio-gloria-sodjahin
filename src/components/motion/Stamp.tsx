@@ -42,7 +42,7 @@ export function Stamp({ children, rotate = -6, delay = 0, active, className, ton
     >
       {children}
       {/* Encre irrégulière */}
-      <span aria-hidden className="grain-layer absolute inset-0 rounded-[inherit] !opacity-30 mix-blend-screen" />
+      <span aria-hidden className="grain-layer absolute inset-0 rounded-[inherit] !opacity-15 mix-blend-screen" />
     </motion.span>
   );
 }

@@ -1,0 +1,32 @@
+/* Feuilles A4 (210 × 297 mm ≈ 794 × 1123 px à 96 dpi) */
+.cv-sheet {
+  width: 794px;
+  height: 1123px;
+  box-shadow: 0 30px 80px -30px rgb(59 20 96 / 0.35);
+}
+
+.cv-entry {
+  break-inside: avoid;
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media screen and (max-width: 840px) {
+  .cv-root main {
+    zoom: 0.46;
+  }
+}
+
+@media print {
+  .cv-sheet {
+    box-shadow: none;
+    break-after: page;
+    margin: 0;
+  }
+  .cv-sheet:last-child {
+    break-after: auto;
+  }
+}
