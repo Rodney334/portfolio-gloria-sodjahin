@@ -20,6 +20,8 @@ npm run preview    # sert out/ pour vérifier le résultat final
 
 Le PDF est généré au build avec Chrome ou Edge déjà installés sur la machine (`playwright-core`, aucun navigateur à télécharger). Il est aussi copié dans `public/` pour le mode dev.
 
+Sur un serveur de build sans navigateur (Vercel, Netlify…), le PDF n'est pas régénéré : c'est la version versionnée dans `public/` qui est publiée. **Après une modification de `src/data/cv.ts`, lancer `npm run build` en local puis committer `public/gloria-sodjahin-cv.pdf`.**
+
 ## Modifier le contenu
 
 Tout le contenu se trouve dans **`src/data/cv.ts`** (identité, expériences, formation, compétences, langues, qualités, intérêts). Les trois versions et le PDF se mettent à jour automatiquement. Les chiffres clés sont calculés à partir des données.

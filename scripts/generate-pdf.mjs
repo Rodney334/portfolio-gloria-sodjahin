@@ -47,10 +47,25 @@ async function launch() {
       /* essai suivant */
     }
   }
-  return chromium.launch();
+  try {
+    return await chromium.launch();
+  } catch {
+    return null;
+  }
 }
 
 const browser = await launch();
+if (!browser) {
+  // Serveur de build (Vercel, Netlify…) sans navigateur : on garde le PDF versionné dans public/,
+  // déjà copié dans out/ par `next build`.
+  server.close();
+  if (!existsSync(join(OUT, FILE))) {
+    console.error(`Aucun navigateur trouvé et public/${FILE} est absent : impossible de fournir le PDF.`);
+    process.exit(1);
+  }
+  console.warn(`⚠ Aucun navigateur (Chrome/Edge) trouvé : PDF non régénéré, la version de public/${FILE} est utilisée.`);
+  process.exit(0);
+}
 try {
   const page = await browser.newPage();
   await page.goto(`http://localhost:${port}/cv/`, { waitUntil: "networkidle" });
